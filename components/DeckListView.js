@@ -11,6 +11,10 @@ class DeckListView extends Component {
         ready: false,
     };
 
+    redirectToDetailsView() {
+        // todo: add navigation to Details View
+    }
+
     componentDidMount () {
         const { dispatch } = this.props;
         fetchDecks()
@@ -24,7 +28,7 @@ class DeckListView extends Component {
         let decksResult;
         if (this.state.ready) {
             decksResult = Object.keys(this.props.deckers).map((deckTitle) => {
-                return (<DeckSummary key={deckTitle} title={deckTitle}/>)
+                return (<DeckSummary key={deckTitle} title={deckTitle} onClick={this.redirectToDetailsView}/>)
             });
         }else{
             decksResult =(<Text>No result</Text>)
