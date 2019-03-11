@@ -3,9 +3,10 @@ export const GET_DECK = 'GET_DECK';
 export const NEW_DECK = 'NEW_DECK';
 export const ADD_CARD_TO_DECK = 'ADD_CARD_TO_DECK';
 
-export function retreiveDecks () {
+export function retreiveDecks (deckers) {
     return {
-        type: GET_DECKS
+        type: GET_DECKS,
+        deckers
     }
 }
 

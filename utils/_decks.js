@@ -1,12 +1,10 @@
 import { AsyncStorage } from 'react-native'
 
-export const FLASHCARD_STORAGE_KEY = 'UdaciMobileFlashCard:decks';
+export const FLASHCARD_STORAGE_KEY = 'UdaciMobileFlashCard:decks11';
 
 
-function setDummyData () {
-    const { run, bike, swim, sleep, eat } = getMetricMetaInfo()
-
-    let dummyData = {
+export function setDummyData () {
+    let dummyData ={
         React: {
             title: 'React',
             questions: [
@@ -29,9 +27,10 @@ function setDummyData () {
                 }
             ]
         }
-    };
+    }
 
-    AsyncStorage.setItem(CALENDAR_STORAGE_KEY, JSON.stringify(dummyData))
+
+    AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, dummyData);
 
     return dummyData
 }

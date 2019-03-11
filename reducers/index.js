@@ -5,13 +5,13 @@ function entries (state = {}, action) {
         case GET_DECKS :
             return {
                 ...state,
-                ...action.entries,
-            };
-        case GET_DECK :
+                ...action.deckers,
+            }
+        case NEW_DECK :
             return {
                 ...state,
                 ...action.entry
-            };
+            }
         default :
             return state
     }
