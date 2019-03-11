@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 
 class QuizView extends Component {
     render(){
-        return (<View></View>)
+        return (
+            <View>
+                <Text>Questin nr order</Text>
+
+            </View>
+        )
     }
 }
 

@@ -11,11 +11,19 @@ export function fetchDecks(){
         });
 }
 
-export function submitEntry ({ entry, key }) {
-    return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY,JSON.stringify({
-        [key]: entry
-    }))
+export function saveQuestion ({ deckTitle, question, answer }) {
+    return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY,{[deckTitle]: {
+            questions: {
+                question: question,
+                answer: answer
+            }
+        }});
 }
+export function saveDeck (title) {
+    return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY,{[title]: {}});
+}
+
+
 
 export function removeEntry (key) {
     return AsyncStorage.getItem()

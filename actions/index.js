@@ -17,16 +17,16 @@ export function getDeck (title) {
     }
 }
 
-export function saveDeck (title) {
+export function saveNewDeck (title) {
     return {
         type: NEW_DECK,
         title,
     }
 }
 
-export function saveNewQuestion (title) {
+export function saveNewQuestion (card) {
     return {
         type: ADD_CARD_TO_DECK,
-        title,
+        card,
     }
 }

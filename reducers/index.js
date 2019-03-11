@@ -10,8 +10,23 @@ function entries (state = {}, action) {
         case NEW_DECK :
             return {
                 ...state,
-                ...action.entry
+                ...action.title
             }
+        case ADD_CARD_TO_DECK :
+            const updatedQuestions = state[action.card.deckTitle].questions.push(
+                {
+                    question: action.card.question,
+                    answer: action.card.answer
+                });
+
+            return {
+                ...state,
+                [action.card.deckTitle]: {
+                    ...state[action.card.deckTitle],
+                    questions: updatedQuestions
+                }
+            };
+
         default :
             return state
     }

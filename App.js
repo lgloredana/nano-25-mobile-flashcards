@@ -5,13 +5,14 @@ import { Provider } from 'react-redux'
 import reducer from './reducers'
 import DeckListView from "./components/DeckListView";
 import DeckView from "./components/DeckView";
+import NewQuestion from "./components/NewQuestion";
 
 export default class App extends React.Component {
     render() {
         return (
             <Provider store={createStore(reducer)}>
                 <View style={styles.container}>
-                  <DeckView title={'React'}/>
+                  <NewQuestion title={'React'}/>
                 </View>
             </Provider>
         )
