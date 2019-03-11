@@ -4,6 +4,7 @@ import { View, Text } from 'react-native'
 import { connect } from 'react-redux';
 import {retreiveDecks} from "../actions";
 import {fetchDecks} from "../utils/api";
+import DeckSummary from "./DeckSummary";
 
 class DeckListView extends Component {
     state = {
@@ -23,7 +24,7 @@ class DeckListView extends Component {
         let decksResult;
         if (this.state.ready) {
             decksResult = Object.keys(this.props.deckers).map((deckTitle) => {
-                return (<Text key={deckTitle}>{deckTitle}</Text>)
+                return (<DeckSummary key={deckTitle} title={deckTitle}/>)
             });
         }else{
             decksResult =(<Text>No result</Text>)
