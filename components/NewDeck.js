@@ -14,6 +14,6 @@ function mapStateToProps (state) {
     }
 }
 
-export  default connect(
+export default connect(
     mapStateToProps
 )(NewDeck)
