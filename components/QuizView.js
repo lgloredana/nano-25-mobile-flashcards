@@ -53,7 +53,30 @@ class QuizView extends Component {
         return (
             <View>
                 { showResult
-                    ? <Text>We have {statisticCorrectAnswer} correct answers !</Text>
+                    ? (
+                        <View>
+                            <Text>We have {statisticCorrectAnswer} correct answers !</Text>
+                            <TouchableOpacity style={styles.button} onPress={() => {
+                                this.setState({
+                                    showAnswer: false,
+                                    currentQuestion: 0,
+                                    showResult: false,
+                                    statisticCorrectAnswer: 0,
+                                })
+                            }}>
+                                <Text style={styles.buttonText}>
+                                    Restart Quiz
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.button} onPress={() => {
+
+                            }}>
+                                <Text style={styles.buttonText}>
+                                    Back to Deck
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    )
                     : (
                         <View>
                             <Text>{nrCards + '/' + (currentQuestion+1)}</Text>
