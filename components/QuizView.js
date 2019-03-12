@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
 import { connect } from 'react-redux';
-import {purple, white} from "../utils/colors";
+import {purple, white, turquoise, red, green } from "../utils/colors";
 
 class QuizView extends Component {
 
@@ -51,11 +51,11 @@ class QuizView extends Component {
         const nrCards = deckers[title].questions.length;
         const questions = deckers[title].questions;
         return (
-            <View>
+            <View style={styles.container}>
                 { showResult
                     ? (
                         <View>
-                            <Text>We have {statisticCorrectAnswer} correct answers !</Text>
+                            <Text style={styles.text}>We have {statisticCorrectAnswer} correct answers !</Text>
                             <TouchableOpacity style={styles.button} onPress={() => {
                                 this.setState({
                                     showAnswer: false,
@@ -81,35 +81,38 @@ class QuizView extends Component {
                         </View>
                     )
                     : (
-                        <View>
-                            <Text>{nrCards + '/' + (currentQuestion+1)}</Text>
-                            <Text>
+                        <View  style={styles.formBox}>
+                            <Text style={styles.text}>{nrCards + '/' + (currentQuestion+1)}</Text>
+                            <Text style={styles.text}>
                                 { questions[currentQuestion].question }
 
                             </Text>
-                            {showAnswer &&  (<Text>
+                            {showAnswer &&  (<Text style={styles.text}>
                                 { questions[currentQuestion].answer }
                             </Text>)}
                             {
-                                <View>
-                                    {!showAnswer &&
-                                    (<TouchableOpacity style={styles.button} onPress={this.showAnswer}>
-                                            <Text style={styles.buttonText}>
+                                <View style={styles.formBox}>
+                                    {(!showAnswer &&
+                                        <TouchableOpacity style={styles.button} onPress={this.showAnswer}>
+                                            <Text style={styles.answerText}>
                                             Show Answer
                                             </Text>
-                                        </TouchableOpacity>)}
-                                        <TouchableOpacity style={styles.button} onPress={() => this.nextQuestion(nrCards, true)}>
-                                            <Text style={styles.buttonText}>
-                                            Correct
-                                            </Text>
                                         </TouchableOpacity>
+                                    )}
+                                        <View style={styles.answerBtnsBox}>
+                                            <TouchableOpacity style={[styles.correct, styles.button]} onPress={() => this.nextQuestion(nrCards, true)}>
+                                                <Text style={styles.correctText}>
+                                                    Correct
+                                                </Text>
+                                            </TouchableOpacity>
 
-                                        <TouchableOpacity style={styles.button} onPress={() => this.nextQuestion(nrCards, false)}>
-                                            <Text style={styles.buttonText}>
-                                            Incorrect
-                                            </Text>
-                                        </TouchableOpacity>
-                                    </View>
+                                            <TouchableOpacity style={[styles.incorrect, styles.button]} onPress={() => this.nextQuestion(nrCards, false)}>
+                                                <Text style={styles.incorrectText}>
+                                                    Incorrect
+                                                </Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                </View>
                             }
                         </View>
                     )
@@ -118,6 +121,8 @@ class QuizView extends Component {
         )
     }
 }
+
+
 
 function mapStateToProps (state, props) {
 
@@ -132,15 +137,62 @@ export  default connect(
 )(QuizView)
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingTop: 30,
+        backgroundColor: white,
+        alignItems: 'center',
+    },
+    formBox: {
+        justifyContent: 'center',
+        alignItems: 'stretch'
+    },
+    text: {
+        color: purple,
+        fontSize: 30,
+        textAlign: 'center'
+    },
     button: {
-        padding: 10,
-        backgroundColor: purple,
-        alignSelf: 'center',
-        borderRadius: 5,
-        margin: 20,
+        paddingTop: 20,
+        borderRadius: 2,
+        height: 60,
+        marginLeft: 50,
+        marginRight: 50,
+        marginTop: 30,
+        width: 250,
+        height: 60,
     },
     buttonText :{
         color: white,
         fontSize: 20,
     },
+    answerBtnsBox: {
+        margin: 20,
+        alignItems: 'center',
+    },
+    correct: {
+        backgroundColor: green,
+    },
+    correctText: {
+        color: white,
+        fontSize: 22,
+        textAlign: 'center',
+        padding: 0,
+        borderRadius: 2,
+    },
+    incorrect: {
+        backgroundColor: red,
+    },
+    incorrectText: {
+        color: white,
+        fontSize: 22,
+        textAlign: 'center',
+        padding: 0,
+        borderRadius: 2,
+    },
+    answerText: {
+        fontSize: 18,
+        color: red,
+    },
 })
+

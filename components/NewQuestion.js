@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet, TextInput} from 'react-native'
 import { connect } from 'react-redux';
 import {saveNewQuestion} from "../actions";
 import {saveQuestion} from "../utils/api";
-import {purple, white} from "../utils/colors";
+import {gray, purple, white} from "../utils/colors";
 
 class NewQuestion extends Component {
 
@@ -16,7 +16,7 @@ class NewQuestion extends Component {
         const { title } = navigation.state.params
 
         return {
-            title: `${title} Add Question`
+            title: `${title} Add Card`
         }
     }
 
@@ -44,26 +44,28 @@ class NewQuestion extends Component {
         const { deckers, title } = this.props;
         const nrCards =  deckers[title].questions.length;
         return (
-            <View>
-                <Text>Add Card</Text>
-                <Text>{this.props.title}</Text>
+            <View style={styles.container}>
+                <View style={styles.formBox}>
+                {/*<Text>Add Card</Text>*/}
+                {/*<Text>{this.props.title}</Text>*/}
                 {/*<Text>{nrCards}</Text>*/}
 
-                <TextInput
-                    style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-                    onChangeText={(text) => this.setState({question: text})}
-                    value={this.state.question}
-                />
-                <TextInput
-                    style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-                    onChangeText={(text) => this.setState({answer:text})}
-                    value={this.state.answer}
-                />
-                <TouchableOpacity style={styles.button} onPress={this.onSaveCard}>
-                    <Text style={styles.buttonText}>
-                        Submit
-                    </Text>
-                </TouchableOpacity>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(text) => this.setState({question: text})}
+                        value={this.state.question}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={(text) => this.setState({answer:text})}
+                        value={this.state.answer}
+                    />
+                    <TouchableOpacity style={styles.button} onPress={this.onSaveCard}>
+                        <Text style={styles.buttonText}>
+                            Submit
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
@@ -81,6 +83,31 @@ export  default connect(
 )(NewQuestion)
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingTop: 30,
+        backgroundColor: white,
+        alignItems: 'center',
+    },
+    formBox: {
+        justifyContent: 'center',
+        alignItems: 'stretch'
+    },
+    text: {
+        color: purple,
+        fontSize: 30,
+        textAlign: 'center'
+    },
+    input: {
+        width: 350,
+        height: 40,
+        padding: 10,
+        borderWidth: 1,
+        borderColor: gray,
+        backgroundColor: white,
+        margin: 10,
+        alignSelf: 'center',
+    },
     button: {
         padding: 10,
         backgroundColor: purple,

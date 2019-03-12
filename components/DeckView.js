@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { connect } from 'react-redux';
 import { purple, white, black } from '../utils/colors'
+import DeckSummary from "./DeckSummary";
 
 class DeckView extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -37,10 +38,12 @@ class DeckView extends Component {
         const nrCards = deckers[title].questions.length;
         return (
             <View style={styles.container}>
-                <View style={{alignSelf: 'center'}}>
-                    <Text>{title}</Text>
-                    <Text>{nrCards}</Text>
-                </View>
+                {/*<View style={{alignSelf: 'center'}}>*/}
+                    {/*<Text>{title}</Text>*/}
+                    {/*<Text>{nrCards}</Text>*/}
+                {/*</View>*/}
+
+                <DeckSummary title={title}/>
 
                 <View style={styles.buttonsContainer}>
                     <TouchableOpacity style={styles.addCardButton} onPress={this.addCard}>
