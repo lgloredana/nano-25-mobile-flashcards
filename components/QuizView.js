@@ -3,6 +3,14 @@ import { View, Text } from 'react-native'
 import { connect } from 'react-redux';
 
 class QuizView extends Component {
+    static navigationOptions = ({ navigation }) => {
+        const { title } = navigation.state.params
+
+        return {
+            title: `${title} Quiz`
+        }
+    }
+
     render(){
         return (
             <View>
@@ -13,9 +21,11 @@ class QuizView extends Component {
     }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps (state, props) {
 
     return {
+        deckers: state,
+        title: props.navigation.state.params.title
     }
 }
 
