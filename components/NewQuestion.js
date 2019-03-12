@@ -8,14 +8,21 @@ import {purple, white} from "../utils/colors";
 class NewQuestion extends Component {
 
     state = {
-        ready: false,
         question: '',
         answer: '',
     };
 
+    static navigationOptions = ({ navigation }) => {
+        const { titleDeck } = navigation.state.params
+
+        return {
+            title: `${titleDeck} Add Question`
+        }
+    }
+
     onSaveCard = () => {
         const card = {
-            deckTitle: this.props.decktitle,
+            deckTitle: this.props.title,
             question: this.state.question,
             answer: this.state.answer
         };
@@ -23,27 +30,21 @@ class NewQuestion extends Component {
         saveQuestion(card)
             .then( () => {
                 this.props.dispatch(saveNewQuestion(card))
+                this.props.navigation.navigate(
+                    'DeckView',
+                    { title: this.props.title }
+                )
             })
     };
 
-    componentDidMount () {
-        const { dispatch } = this.props;
-        fetchDecks()
-            .then((entries) =>{
-                dispatch(retreiveDecks(entries))
-            } )
-            .then(() => this.setState(() => ({ready: true})))
-    }
-
 
     render(){
-        const nrCards =  this.state.ready
-            ? this.props.deckers[this.props.decktitle].questions.length
-            : 0;
+        const { deckers, title } = this.props;
+        const nrCards =  deckers[title].questions.length;
         return (
             <View>
                 <Text>Add Card</Text>
-                <Text>{this.props.decktitle}</Text>
+                <Text>{this.props.title}</Text>
                 <Text>{nrCards}</Text>
 
                 <TextInput
@@ -66,9 +67,10 @@ class NewQuestion extends Component {
     }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps (state, props) {
     return {
-        deckers: state
+        deckers: state,
+        title: props.navigation.state.params.title
     }
 }
 

@@ -7,34 +7,32 @@ import {retreiveDecks} from "../actions";
 
 class DeckView extends Component {
 
-    state = {
-        ready: false,
-    };
+    static navigationOptions = ({ navigation }) => {
+        const { title } = navigation.state.params
 
-    addCard = () => {
-        //TODO: NAVIGATE TO ADD CARD
-    };
-
-    startQuiz = () => {
-        // todo: navigate to start quiz
-    };
-
-    componentDidMount () {
-        const { dispatch } = this.props;
-        fetchDecks()
-            .then((entries) =>{
-                dispatch(retreiveDecks(entries))
-            } )
-            .then(() => this.setState(() => ({ready: true})))
+        return {
+           title
+        }
     }
 
+    addCard = () => {
+        this.props.navigation.navigate(
+            'NewQuestion',
+            { title: this.props.title }
+    )};
+
+    startQuiz = () => {
+         this.props.navigation.navigate(
+            'QuizView',
+            { title: 'deckTitle' }
+    )};
+
     render(){
-        const nrCards = this.state.ready
-            ? this.props.deckers[this.props.title].questions.length
-            : null;
+        const { title,  deckers} = this.props;
+        const nrCards = deckers[title].questions.length;
         return (
             <View>
-                <Text>{this.props.title}</Text>
+                <Text>{title}</Text>
                 <Text>{nrCards}</Text>
 
                 <TouchableOpacity style={styles.button} onPress={this.addCard}>
@@ -52,10 +50,11 @@ class DeckView extends Component {
     }
 }
 
-function mapStateToProps (state) {
+function mapStateToProps (state, props) {
 
     return {
-        deckers: state
+        deckers: state,
+        title: props.navigation.state.params.title
     }
 }
 

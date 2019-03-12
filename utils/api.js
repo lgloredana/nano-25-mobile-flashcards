@@ -42,8 +42,9 @@ export function saveQuestion ({ deckTitle, question, answer }) {
                     console.log('error on updating the questions')
                 });
         })
-        .catch(() => {
-            console.log('error on getting decks');
+        .catch((error) => {
+            console.error('error on getting decks');
+            console.dir(error)
         })
 
 }
