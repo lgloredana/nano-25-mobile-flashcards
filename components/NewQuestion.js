@@ -13,10 +13,10 @@ class NewQuestion extends Component {
     };
 
     static navigationOptions = ({ navigation }) => {
-        const { titleDeck } = navigation.state.params
+        const { title } = navigation.state.params
 
         return {
-            title: `${titleDeck} Add Question`
+            title: `${title} Add Question`
         }
     }
 
