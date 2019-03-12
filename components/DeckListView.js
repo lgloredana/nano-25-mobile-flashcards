@@ -1,115 +1,83 @@
+
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native'
 import { connect } from 'react-redux';
-import { purple, white, black } from '../utils/colors'
-import {fetchDecks} from "../utils/api";
 import {retreiveDecks} from "../actions";
+import {fetchDecks} from "../utils/api";
+import DeckSummary from "./DeckSummary";
+import { white } from '../utils/colors'
 
-class DeckView extends Component {
-    static navigationOptions = ({ navigation }) => {
-        const { entryId } = navigation.state.params
+class DeckListView extends Component {
+    state = {
+        ready: false,
+    };
 
-        return {
-            title: entryId
-        }
+    componentDidMount () {
+        const { dispatch } = this.props;
+        fetchDecks()
+            .then((entries) =>{
+                dispatch(retreiveDecks(entries))
+            } )
+            .then(() => this.setState(() => ({ready: true})))
     }
 
-    static navigationOptions = ({ navigation }) => {
-        const { title } = navigation.state.params
-
-        return {
-            title
-        }
-    }
-
-    addCard = () => {
-        this.props.navigation.navigate(
-            'NewQuestion',
-            { title: this.props.title }
-        )};
-
-    startQuiz = () => {
-        this.props.navigation.navigate(
-            'QuizView',
-            { title: this.props.title }
-        )};
+    renderItem = ({ item }) => (
+        <TouchableOpacity style={styles.deck}
+                          key={item.title}
+                          onPress={() => this.props.navigation.navigate(
+                              'DeckView',
+                              { title: item.title }
+                          )}>
+            <DeckSummary  title={item.title}/>
+        </TouchableOpacity>
+    )
 
     render(){
-        const { title,  deckers} = this.props;
-        const nrCards = deckers[title].questions.length;
+        let data = Object.values(this.props.deckers).sort(
+            (a, b) => a.title > b.title,
+        )
+        let decksResult = (<Text>No result</Text>);
+
+        if (this.state.ready) {
+            decksResult = Object.keys(this.props.deckers).map((deckTitle) => {
+                return (
+                    <TouchableOpacity
+                        key={deckTitle}
+                        onPress={() => this.props.navigation.navigate(
+                            'DeckView',
+                            { title: deckTitle }
+                        )}>
+                        <DeckSummary  title={deckTitle}/>
+                    </TouchableOpacity>
+                )
+            });
+        }
         return (
             <View style={styles.container}>
-                <View style={{alignSelf: 'center'}}>
-                    <Text>{title}</Text>
-                    <Text>{nrCards}</Text>
-                </View>
-
-                <View style={styles.buttonsContainer}>
-                    <TouchableOpacity style={styles.addCardButton} onPress={this.addCard}>
-                        <Text style={styles.addCardText}>
-                            Add Card
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.startQuizButton} onPress={this.startQuiz}>
-                        <Text style={styles.startQuizText}>
-                            Start Quiz
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                <FlatList data={data} renderItem={this.renderItem} keyExtractor={(item, index) => index.toString()} />
             </View>
         )
     }
 }
 
-function mapStateToProps (state, props) {
+const styles = StyleSheet.create ({
+    container: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        backgroundColor: white,
+        padding: 20
+    },
+    deck: {
+        margin: 0,
+        padding: 0,
+    },
+})
 
+function mapStateToProps(state){
     return {
-        deckers: state,
-        title: props.navigation.state.params.title
+        deckers: state
     }
 }
 
-export  default connect(
-    mapStateToProps
-)(DeckView)
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingTop: 40,
-        backgroundColor: white,
-        justifyContent: 'space-around',
-        alignItems: 'stretch',
-    },
-    buttonsContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'stretch',
-        marginLeft: 60,
-        marginRight: 60,
-    },
-    addCardButton: {
-        backgroundColor: white,
-        borderColor: purple,
-        borderWidth: 2,
-        borderRadius: 5,
-        padding: 20,
-    },
-    startQuizButton: {
-        backgroundColor: black,
-        borderColor: purple,
-        borderWidth: 2,
-        borderRadius: 5,
-        padding: 20,
-        marginTop: 20,
-    },
-    addCardText: {
-        fontSize: 20,
-        alignSelf: 'center',
-    },
-    startQuizText: {
-        fontSize: 20,
-        color: white,
-        alignSelf: 'center',
-    },
-})
+export  default connect(mapStateToProps)(DeckListView)
