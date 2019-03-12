@@ -13,19 +13,19 @@ function entries (state = {}, action) {
                 ...action.title
             }
         case ADD_CARD_TO_DECK :
-            const updatedQuestions = state[action.card.deckTitle].questions.push(
+            let updatedQuestions = state[action.card.deckTitle].questions
+            updatedQuestions.push(
                 {
                     question: action.card.question,
                     answer: action.card.answer
                 });
-
             return {
                 ...state,
                 [action.card.deckTitle]: {
-                    ...state[action.card.deckTitle],
+                    title: action.card.deckTitle,
                     questions: updatedQuestions
                 }
-            };
+            }
 
         default :
             return state

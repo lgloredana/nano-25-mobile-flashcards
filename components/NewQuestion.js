@@ -13,30 +13,17 @@ class NewQuestion extends Component {
         answer: '',
     };
 
-    saveCard = () => {
+    onSaveCard = () => {
         const card = {
-            deckTitle: this.props.title,
+            deckTitle: this.props.decktitle,
             question: this.state.question,
             answer: this.state.answer
         };
 
         saveQuestion(card)
-            .then(
-                () => {
-                    this.props.dispatch(saveNewQuestion(card))
-                }
-            )
-            // .then( () => {
-            //     fetchDecks()
-            //         .then((entries) =>{
-            //                 this.props.dispatch(retreiveDecks(entries))
-            //         } )
-            // })
-            .catch( error => {
-                debugger;
+            .then( () => {
+                this.props.dispatch(saveNewQuestion(card))
             })
-
-
     };
 
     componentDidMount () {
@@ -50,13 +37,14 @@ class NewQuestion extends Component {
 
 
     render(){
-        const nrCards = this.state.ready
-            ? this.props.deckers[this.props.title].questions.length
-            : null;
+        debugger;
+        const nrCards =  this.state.ready
+            ? this.props.deckers[this.props.decktitle].questions.length
+            : 0;
         return (
             <View>
                 <Text>Add Card</Text>
-                <Text>{this.props.title}</Text>
+                <Text>{this.props.decktitle}</Text>
                 <Text>{nrCards}</Text>
 
                 <TextInput
@@ -69,7 +57,7 @@ class NewQuestion extends Component {
                     onChangeText={(text) => this.setState({answer:text})}
                     value={this.state.answer}
                 />
-                <TouchableOpacity style={styles.button} onPress={this.saveCard}>
+                <TouchableOpacity style={styles.button} onPress={this.onSaveCard}>
                     <Text style={styles.buttonText}>
                         Submit
                     </Text>
@@ -80,7 +68,6 @@ class NewQuestion extends Component {
 }
 
 function mapStateToProps (state) {
-debugger;
     return {
         deckers: state
     }

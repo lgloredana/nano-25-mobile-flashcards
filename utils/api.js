@@ -19,12 +19,33 @@ export function fetchDecks(){
 }
 
 export function saveQuestion ({ deckTitle, question, answer }) {
-    return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY,{[deckTitle]: {
-            questions: {
+    return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
+        .then((result) => {
+            // getting the decks first in order to update the specific deck
+            const decks = JSON.parse(result);
+            let updatedQuestions =  decks[deckTitle].questions;
+            updatedQuestions.push({
                 question: question,
                 answer: answer
-            }
-        }});
+            })
+            const updatedDeck = JSON.stringify({
+                [deckTitle]:{
+                    title: deckTitle,
+                    questions: updatedQuestions
+                }
+            });
+            return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY, updatedDeck)
+                .then( (response) => {
+                    console.log('success on updating the questions')
+                })
+                .catch(() => {
+                    console.log('error on updating the questions')
+                });
+        })
+        .catch(() => {
+            console.log('error on getting decks');
+        })
+
 }
 export function saveDeck (title) {
     return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY,JSON.stringify(

@@ -9,6 +9,7 @@ import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
 import DeckListView from './components/DeckListView'
 import NewDeck from './components/NewDeck'
+import NewQuestion from "./components/NewQuestion";
 
 function FlashcardsStatusBar ({backgroundColor, ...props}) {
   return (
@@ -59,7 +60,8 @@ export default class App extends React.Component {
       <Provider store={createStore(reducer)}>
         <View style={{flex: 1}}>
           <FlashcardsStatusBar backgroundColor={purple} barStyle="light-content" />
-          <Tabs />
+          {/*<Tabs />*/}
+          <NewQuestion decktitle='React'/>
         </View>
       </Provider>
     )
