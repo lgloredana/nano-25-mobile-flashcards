@@ -9,6 +9,7 @@ class QuizView extends Component {
         showAnswer: false,
         currentQuestion: 0,
         showResult: false,
+        statisticCorrectAnswer: 0,
     };
 
     static navigationOptions = ({ navigation }) => {
@@ -25,17 +26,20 @@ class QuizView extends Component {
        })
     };
 
-    nextQuestion = (nrCards) => {
+    nextQuestion = (nrCards, correct) => {
         this.setState((prevState) => {
             const newCurrentQuestion = prevState.currentQuestion + 1;
+            const increseCorrect = correct ? 1 : 0;
             if ( nrCards === newCurrentQuestion){
                 return {
                     showResult: true,
+                    statisticCorrectAnswer: prevState.statisticCorrectAnswer + increseCorrect,
                 }
             }else {
                 return {
                     currentQuestion: newCurrentQuestion,
-                    showAnswer: false
+                    showAnswer: false,
+                    statisticCorrectAnswer: prevState.statisticCorrectAnswer + increseCorrect,
                 }
             }
         })
@@ -43,13 +47,13 @@ class QuizView extends Component {
 
     render(){
         const {deckers, title} = this.props;
-        const { currentQuestion, showResult, showAnswer } = this.state;
+        const { currentQuestion, showResult, showAnswer, statisticCorrectAnswer} = this.state;
         const nrCards = deckers[title].questions.length;
         const questions = deckers[title].questions;
         return (
             <View>
                 { showResult
-                    ? <Text>Statistic</Text>
+                    ? <Text>We have {statisticCorrectAnswer} correct answers !</Text>
                     : (
                         <View>
                             <Text>{nrCards + '/' + (currentQuestion+1)}</Text>
@@ -68,13 +72,13 @@ class QuizView extends Component {
                                             Show Answer
                                             </Text>
                                         </TouchableOpacity>)}
-                                        <TouchableOpacity style={styles.button} onPress={() => this.nextQuestion(nrCards)}>
+                                        <TouchableOpacity style={styles.button} onPress={() => this.nextQuestion(nrCards, true)}>
                                             <Text style={styles.buttonText}>
                                             Correct
                                             </Text>
                                         </TouchableOpacity>
 
-                                        <TouchableOpacity style={styles.button} onPress={() => this.nextQuestion(nrCards)}>
+                                        <TouchableOpacity style={styles.button} onPress={() => this.nextQuestion(nrCards, false)}>
                                             <Text style={styles.buttonText}>
                                             Incorrect
                                             </Text>
