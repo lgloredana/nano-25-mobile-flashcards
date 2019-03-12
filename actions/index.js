@@ -10,13 +10,6 @@ export function retreiveDecks (deckers) {
     }
 }
 
-export function getDeck (title) {
-    return {
-        type: GET_DECK,
-        title,
-    }
-}
-
 export function saveNewDeck (title) {
     return {
         type: NEW_DECK,
