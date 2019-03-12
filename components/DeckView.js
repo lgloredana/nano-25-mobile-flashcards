@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { connect } from 'react-redux';
 import { purple, white, black } from '../utils/colors'
-import {fetchDecks} from "../utils/api";
-import {retreiveDecks} from "../actions";
 
 class DeckView extends Component {
     static navigationOptions = ({ navigation }) => {

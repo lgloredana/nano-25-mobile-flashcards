@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, TextInput} from 'react-native'
 import { connect } from 'react-redux';
-import {retreiveDecks, saveNewQuestion} from "../actions";
-import {fetchDecks, saveQuestion} from "../utils/api";
+import {saveNewQuestion} from "../actions";
+import {saveQuestion} from "../utils/api";
 import {purple, white} from "../utils/colors";
 
 class NewQuestion extends Component {
