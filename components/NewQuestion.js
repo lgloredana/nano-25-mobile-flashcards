@@ -37,7 +37,6 @@ class NewQuestion extends Component {
 
 
     render(){
-        debugger;
         const nrCards =  this.state.ready
             ? this.props.deckers[this.props.decktitle].questions.length
             : 0;
