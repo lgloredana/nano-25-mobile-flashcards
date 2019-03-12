@@ -13,24 +13,33 @@ class NewDeck extends Component {
     };
 
     onSaveDeck =() => {
-
-        saveDeck(this.state.title)
-            .then(() => {
-                return this.props.dispatch(saveNewDeck(
-                    {[this.state.title]: {
-                            title: this.state.title,
-                            questions: []
+        if (this.state.title === null) {
+            Alert.alert("A deck title should be provided")
+            return
+        }
+        if (this.props.deckers[this.state.title]) {
+            Alert.alert("This deck name already exists!")
+            return
+        } else {
+            saveDeck(this.state.title)
+                .then(() => {
+                    return this.props.dispatch(saveNewDeck(
+                        {
+                            [this.state.title]: {
+                                title: this.state.title,
+                                questions: []
+                            }
                         }
-                    }
-                ));
-            })
-            .then(() => {
-                this.props.navigation.navigate(
-                    'DeckView',
-                    { title: this.state.title }
-                )
-            })
-            .catch((error) => console.warn('Error', error));
+                    ));
+                })
+                .then(() => {
+                    this.props.navigation.navigate(
+                        'DeckView',
+                        {title: this.state.title}
+                    )
+                })
+                .catch((error) => console.warn('Error', error));
+        }
     };
 
     componentDidMount () {
