@@ -6,8 +6,9 @@ import {purple, white} from "../utils/colors";
 class QuizView extends Component {
 
     state = {
-        showQuestion: true,
-        currentQuestion: 0
+        showAnswer: false,
+        currentQuestion: 0,
+        showResult: false,
     };
 
     static navigationOptions = ({ navigation }) => {
@@ -20,67 +21,69 @@ class QuizView extends Component {
 
     showAnswer = () => {
        this.setState({
-           showQuestion: false,
+           showAnswer: true,
        })
     };
 
-    showQuestion = () => {
-        this.setState({
-            showQuestion: true,
+    nextQuestion = (nrCards) => {
+        this.setState((prevState) => {
+            const newCurrentQuestion = prevState.currentQuestion + 1;
+            if ( nrCards === newCurrentQuestion){
+                return {
+                    showResult: true,
+                }
+            }else {
+                return {
+                    currentQuestion: newCurrentQuestion,
+                    showAnswer: false
+                }
+            }
         })
-    };
+    }
 
     render(){
         const {deckers, title} = this.props;
-        const { currentQuestion } = this.state;
+        const { currentQuestion, showResult, showAnswer } = this.state;
         const nrCards = deckers[title].questions.length;
         const questions = deckers[title].questions;
         return (
             <View>
-                <Text>{nrCards + '/' + currentQuestion}</Text>
-                <Text>{this.state.showQuestion
-                    ? questions[currentQuestion].question
-                    : questions[currentQuestion].answer
-                }</Text>
-                {
-                    this.state.showQuestion
-                        ? ( <View>
-                                <TouchableOpacity style={styles.button} onPress={this.showAnswer}>
-                                    <Text style={styles.buttonText}>
-                                        Show Answer
-                                    </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.button} onPress={() => {this.setState((prevState) => {
-                                    return {
-                                        currentQuestion: prevState.currentQuestion+1,
-                                    }
-                                })}}>
-                                    <Text style={styles.buttonText}>
-                                        Correct
-                                    </Text>
-                                </TouchableOpacity>
+                { showResult
+                    ? <Text>Statistic</Text>
+                    : (
+                        <View>
+                            <Text>{nrCards + '/' + (currentQuestion+1)}</Text>
+                            <Text>
+                                { questions[currentQuestion].question }
 
-                                <TouchableOpacity style={styles.button} onPress={() => {this.setState((prevState) => {
-                                    return {
-                                        currentQuestion: prevState.currentQuestion+1,
-                                    }
-                                })}}>
-                                    <Text style={styles.buttonText}>
-                                        Incorrect
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-                        )
-                        :(
-                            <TouchableOpacity style={styles.button} onPress={this.showQuestion}>
-                                <Text style={styles.buttonText}>
-                                    Show Question
-                                </Text>
-                            </TouchableOpacity>)
+                            </Text>
+                            {showAnswer &&  (<Text>
+                                { questions[currentQuestion].answer }
+                            </Text>)}
+                            {
+                                <View>
+                                    {!showAnswer &&
+                                    (<TouchableOpacity style={styles.button} onPress={this.showAnswer}>
+                                            <Text style={styles.buttonText}>
+                                            Show Answer
+                                            </Text>
+                                        </TouchableOpacity>)}
+                                        <TouchableOpacity style={styles.button} onPress={() => this.nextQuestion(nrCards)}>
+                                            <Text style={styles.buttonText}>
+                                            Correct
+                                            </Text>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity style={styles.button} onPress={() => this.nextQuestion(nrCards)}>
+                                            <Text style={styles.buttonText}>
+                                            Incorrect
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                            }
+                        </View>
+                    )
                 }
-
-
-
             </View>
         )
     }
