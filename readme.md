@@ -7,9 +7,13 @@ Udacity's React & Redux course.
 
  - `yarn install` - for getting the required libs  
  - `yarn start` - for opening the application in browser
+
+## Platform
+
+This app was tested against the Android platform.
+
  
- 
- Specific Requirements
+ ## Specific Requirements
  
  
  * Use create-react-native-app to build your project.
