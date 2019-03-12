@@ -1,54 +1,115 @@
-
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { connect } from 'react-redux';
-import {retreiveDecks} from "../actions";
+import { purple, white, black } from '../utils/colors'
 import {fetchDecks} from "../utils/api";
-import DeckSummary from "./DeckSummary";
+import {retreiveDecks} from "../actions";
 
-class DeckListView extends Component {
-    state = {
-        ready: false,
-    };
+class DeckView extends Component {
+    static navigationOptions = ({ navigation }) => {
+        const { entryId } = navigation.state.params
 
-    componentDidMount () {
-        const { dispatch } = this.props;
-        fetchDecks()
-            .then((entries) =>{
-                dispatch(retreiveDecks(entries))
-            } )
-            .then(() => this.setState(() => ({ready: true})))
+        return {
+            title: entryId
+        }
     }
 
-    render(){
-        let decksResult = (<Text>No result</Text>);
-        if (this.state.ready) {
-            decksResult = Object.keys(this.props.deckers).map((deckTitle) => {
-                return (
-                    <TouchableOpacity
-                        key={deckTitle}
-                        onPress={() => this.props.navigation.navigate(
-                            'DeckView',
-                            { title: deckTitle }
-                        )}>
-                        <DeckSummary  title={deckTitle}/>
-                    </TouchableOpacity>
-                )
-            });
+    static navigationOptions = ({ navigation }) => {
+        const { title } = navigation.state.params
+
+        return {
+            title
         }
+    }
+
+    addCard = () => {
+        this.props.navigation.navigate(
+            'NewQuestion',
+            { title: this.props.title }
+        )};
+
+    startQuiz = () => {
+        this.props.navigation.navigate(
+            'QuizView',
+            { title: this.props.title }
+        )};
+
+    render(){
+        const { title,  deckers} = this.props;
+        const nrCards = deckers[title].questions.length;
         return (
-            <View>
-                {decksResult}
+            <View style={styles.container}>
+                <View style={{alignSelf: 'center'}}>
+                    <Text>{title}</Text>
+                    <Text>{nrCards}</Text>
+                </View>
+
+                <View style={styles.buttonsContainer}>
+                    <TouchableOpacity style={styles.addCardButton} onPress={this.addCard}>
+                        <Text style={styles.addCardText}>
+                            Add Card
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.startQuizButton} onPress={this.startQuiz}>
+                        <Text style={styles.startQuizText}>
+                            Start Quiz
+                        </Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
 }
 
-function mapStateToProps(state){
+function mapStateToProps (state, props) {
+
     return {
-        deckers: state
+        deckers: state,
+        title: props.navigation.state.params.title
     }
 }
 
+export  default connect(
+    mapStateToProps
+)(DeckView)
 
-export  default connect(mapStateToProps)(DeckListView)
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingTop: 40,
+        backgroundColor: white,
+        justifyContent: 'space-around',
+        alignItems: 'stretch',
+    },
+    buttonsContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'stretch',
+        marginLeft: 60,
+        marginRight: 60,
+    },
+    addCardButton: {
+        backgroundColor: white,
+        borderColor: purple,
+        borderWidth: 2,
+        borderRadius: 5,
+        padding: 20,
+    },
+    startQuizButton: {
+        backgroundColor: black,
+        borderColor: purple,
+        borderWidth: 2,
+        borderRadius: 5,
+        padding: 20,
+        marginTop: 20,
+    },
+    addCardText: {
+        fontSize: 20,
+        alignSelf: 'center',
+    },
+    startQuizText: {
+        fontSize: 20,
+        color: white,
+        alignSelf: 'center',
+    },
+})
