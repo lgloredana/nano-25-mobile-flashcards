@@ -19,20 +19,20 @@ function FlashcardsStatusBar ({backgroundColor, ...props}) {
 }
 
 const Tabs = TabNavigator({
-  DeckListView: {
-    screen: DeckListView,
+  NewDeck: {
+    screen: NewDeck,
     navigationOptions: {
-      tabBarLabel: 'Decks',
-      tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
+      tabBarLabel: 'Add Deck',
+      tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
     },
   },
-  // NewDeck: {
-  //   screen: NewDeck,
-  //   navigationOptions: {
-  //     tabBarLabel: 'Add Deck',
-  //     tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
-  //   },
-  // },
+  DeckListView: {
+      screen: DeckListView,
+      navigationOptions: {
+          tabBarLabel: 'Decks',
+          tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
+      },
+  },
 }, {
   navigationOptions: {
     header: null

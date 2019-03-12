@@ -12,15 +12,19 @@ class NewDeck extends Component {
         title: '',
     };
 
-    saveDeck =() => {
+    onSaveDeck =() => {
+
         saveDeck(this.state.title)
             .then(() => {
-                this.props.dispatch(saveNewDeck({title: this.state.title}));
-            })
-            .catch( (error) => {
-                debugger;
+                this.props.dispatch(saveNewDeck(
+                    {[this.state.title]: {
+                            title: this.state.title,
+                            questions: []
+                        }
+                    }
+                ));
             });
-    }
+    };
 
     componentDidMount () {
         const { dispatch } = this.props;
@@ -32,7 +36,7 @@ class NewDeck extends Component {
     }
 
     render(){
-        const decksCount = Object.keys(this.props.decks);
+        const decksCount = Object.keys(this.props.deckers).length;
         return (
             <View>
                 <Text>{decksCount}</Text>
@@ -42,7 +46,7 @@ class NewDeck extends Component {
                     onChangeText={(text) => this.setState({title: text})}
                     value={this.state.title}
                 />
-                <TouchableOpacity style={styles.button} onPress={this.saveDeck}>
+                <TouchableOpacity style={styles.button} onPress={this.onSaveDeck}>
                     <Text style={styles.buttonText}>
                         Submit
                     </Text>
@@ -55,7 +59,7 @@ class NewDeck extends Component {
 function mapStateToProps (state) {
 
     return {
-        decks: state
+        deckers: state
     }
 }
 

@@ -27,9 +27,14 @@ export function saveQuestion ({ deckTitle, question, answer }) {
         }});
 }
 export function saveDeck (title) {
-    return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY,{[title]: {}})
-        .then((response) => {
-            console.log('response = ' + response)
+    return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY,JSON.stringify(
+        {[title]: {
+                    title: title,
+                    questions: []
+                }
+        }))
+        .catch(() => {
+            console.log('Error on Saving a new deck')
         });
 }
 
