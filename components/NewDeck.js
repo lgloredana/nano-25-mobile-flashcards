@@ -56,7 +56,7 @@ class NewDeck extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.formBox}>
-                    <Text>{decksCount}</Text>
+                    {/*<Text>{decksCount}</Text>*/}
                     <Text style={styles.text}>What is the title of your new deck ?</Text>
                     <TextInput
                         style={styles.input}
