@@ -4,10 +4,17 @@ import {FLASHCARD_STORAGE_KEY, setDummyData} from "./_decks";
 export function fetchDecks(){
     return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
         .then((decks) => {
-            let result = decks === null
-                ? setDummyData()
-                : decks;
-            return result;
+           if (decks === null)
+                setDummyData()
+                    .then((response) => {
+                        fetchDecks();
+                    })
+                    .catch(() => {
+                        console.log('error');
+                    });
+           else {
+               return JSON.parse(decks);
+           }
         });
 }
 
@@ -20,7 +27,10 @@ export function saveQuestion ({ deckTitle, question, answer }) {
         }});
 }
 export function saveDeck (title) {
-    return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY,{[title]: {}});
+    return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY,{[title]: {}})
+        .then((response) => {
+            console.log('response = ' + response)
+        });
 }
 
 

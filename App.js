@@ -26,13 +26,13 @@ const Tabs = TabNavigator({
       tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
     },
   },
-  NewDeck: {
-    screen: NewDeck,
-    navigationOptions: {
-      tabBarLabel: 'Add Deck',
-      tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
-    },
-  },
+  // NewDeck: {
+  //   screen: NewDeck,
+  //   navigationOptions: {
+  //     tabBarLabel: 'Add Deck',
+  //     tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
+  //   },
+  // },
 }, {
   navigationOptions: {
     header: null

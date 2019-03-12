@@ -25,13 +25,12 @@ class DeckListView extends Component {
     }
 
     render(){
-        let decksResult;
+        let decksResult = (<Text>No result</Text>);
         if (this.state.ready) {
+            debugger; //this is the decks view
             decksResult = Object.keys(this.props.deckers).map((deckTitle) => {
                 return (<DeckSummary key={deckTitle} title={deckTitle} onClick={this.redirectToDetailsView}/>)
             });
-        }else{
-            decksResult =(<Text>No result</Text>)
         }
         return (
             <View>
