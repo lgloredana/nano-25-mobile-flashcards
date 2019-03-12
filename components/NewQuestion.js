@@ -47,7 +47,7 @@ class NewQuestion extends Component {
             <View>
                 <Text>Add Card</Text>
                 <Text>{this.props.title}</Text>
-                <Text>{nrCards}</Text>
+                {/*<Text>{nrCards}</Text>*/}
 
                 <TextInput
                     style={{height: 40, borderColor: 'gray', borderWidth: 1}}
