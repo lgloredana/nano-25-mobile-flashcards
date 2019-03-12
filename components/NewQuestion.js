@@ -31,6 +31,12 @@ class NewQuestion extends Component {
             .then( () => {
                 this.props.dispatch(saveNewQuestion(card))
             })
+            .then( () => {
+                this.props.navigation.navigate(
+                    'DeckView',
+                    { title: this.props.title }
+                )
+            })
     };
 
 

@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native'
 
-export const FLASHCARD_STORAGE_KEY = 'UdaciMobileFlashCard:decks02';
+export const FLASHCARD_STORAGE_KEY = 'UdaciMobileFlashCard:decks03';
 
 
 export function setDummyData () {
